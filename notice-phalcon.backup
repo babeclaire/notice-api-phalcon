@@ -1,0 +1,216 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.2.21
+-- Dumped by pg_dump version 9.2.21
+-- Started on 2017-07-12 17:18:04
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 1 (class 3079 OID 11727)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 1944 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 172 (class 1259 OID 16476)
+-- Name: notice; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE notice (
+    id integer NOT NULL,
+    title character varying,
+    description text,
+    author character varying,
+    updated_date time with time zone DEFAULT now(),
+    soft_delete boolean DEFAULT false,
+    reading boolean,
+    created_date date
+);
+
+
+ALTER TABLE public.notice OWNER TO postgres;
+
+--
+-- TOC entry 171 (class 1259 OID 16474)
+-- Name: notice_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE notice_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.notice_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 1945 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: notice_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE notice_id_seq OWNED BY notice.id;
+
+
+--
+-- TOC entry 170 (class 1259 OID 16420)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    username character varying,
+    email character varying,
+    password character varying,
+    name character varying,
+    created_date timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 169 (class 1259 OID 16418)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 1946 (class 0 OID 0)
+-- Dependencies: 169
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
+-- TOC entry 1820 (class 2604 OID 16479)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY notice ALTER COLUMN id SET DEFAULT nextval('notice_id_seq'::regclass);
+
+
+--
+-- TOC entry 1818 (class 2604 OID 16423)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+--
+-- TOC entry 1936 (class 0 OID 16476)
+-- Dependencies: 172
+-- Data for Name: notice; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY notice (id, title, description, author, updated_date, soft_delete, reading, created_date) FROM stdin;
+37	hhey	como esta todo	pues ya	16:06:41.829-04	t	\N	2017-07-12
+38	sadwadwd	wqdqwdqwdwdwdewdwed	dwqdqwdqwwedwed	16:07:05.539-04	t	\N	2017-07-12
+39	t4erstwe	rwetet	tetedrt	16:35:01.118-04	t	\N	2017-07-12
+40	wdqdead	fesafdwefbvhgvg	fefew	16:36:01.783-04	f	\N	2017-07-12
+\.
+
+
+--
+-- TOC entry 1947 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: notice_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('notice_id_seq', 40, true);
+
+
+--
+-- TOC entry 1934 (class 0 OID 16420)
+-- Dependencies: 170
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY users (id, username, email, password, name, created_date) FROM stdin;
+15	dcdwewe	dswed@h.com	edede	edwed	2017-02-02 00:00:00-04
+\.
+
+
+--
+-- TOC entry 1948 (class 0 OID 0)
+-- Dependencies: 169
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('users_id_seq', 15, true);
+
+
+--
+-- TOC entry 1826 (class 2606 OID 16486)
+-- Name: notice_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY notice
+    ADD CONSTRAINT notice_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1824 (class 2606 OID 16425)
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1943 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2017-07-12 17:18:04
+
+--
+-- PostgreSQL database dump complete
+--
+
